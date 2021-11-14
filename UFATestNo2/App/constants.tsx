@@ -1,5 +1,5 @@
 //API URL
-export const API_URL = 'http://api.alquran.cloud/v1';
+export const API_URL = 'https://api.alquran.cloud/v1';
 
 //List API End Point https://alquran.cloud/api
 export const GET_QURAN = `${API_URL}/quran`;
