@@ -1,7 +1,7 @@
 import {createModel} from '@rematch/core';
 import {RootModel} from '.';
 import { Search } from '../Data/Types';
-import * as api from '../services/api/search';
+import * as api from '../Services/API/search';
 
 const initialState = {
   count: 0,
@@ -24,7 +24,7 @@ export const search = createModel<RootModel>()({
     async getSearch(payload: string) {
       const response = await api.getSearch(payload);
       const data = await response.data;
-      dispatch.quran.updateData(data.surahs);
+      dispatch.search.updateData(data);
       return data;
     },
   }),

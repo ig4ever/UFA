@@ -1,5 +1,11 @@
 /* eslint-disable prettier/prettier */
 
-module.exports = {
-  IconQuran: require('../assets/icon/navigation/icon-quran.png'),
+const IconQuran = require('../Assets/Icon/icon-quran.png');
+const IconStar = require('../Assets/Icon/icon-star.png');
+const IconCloud = require('../Assets/Icon/icon-cloud.png');
+
+export {
+  IconQuran,
+  IconStar,
+  IconCloud
 };

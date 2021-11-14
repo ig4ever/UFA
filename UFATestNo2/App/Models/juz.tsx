@@ -1,7 +1,7 @@
 import {createModel} from '@rematch/core';
 import { RootModel } from '.';
 import { Juz } from '../Data/Types';
-import * as api from '../services/api/juz';
+import * as api from '../Services/API/juz';
 
 const initialState = {
   number: 0,
@@ -24,7 +24,7 @@ export const juz = createModel<RootModel>()({
     async getJuz(payload: string) {
       const response = await api.getJuz(payload);
       const data = await response.data;
-      dispatch.quran.updateData(data.surahs);
+      dispatch.juz.updateData(data.surahs);
       return data;
     },
   }),

@@ -1,7 +1,7 @@
 import {createModel} from '@rematch/core';
 import {RootModel} from '.';
 import { Quran } from '../Data/Types';
-import * as api from '../services/api/quran';
+import * as api from '../Services/API/quran';
 
 const initialState = [];
 
@@ -18,7 +18,7 @@ export const quran = createModel<RootModel>()({
     },
   },
   effects: dispatch => ({
-    async getCategory(payload: string) {
+    async getQuran(payload: string) {
       const response = await api.getQuran(payload);
       const data = await response.data;
       dispatch.quran.updateData(data.surahs);

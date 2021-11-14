@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, SafeAreaView} from 'react-native';
-import AppNavigator from './navigation';
+import AppNavigator from './Navigation';
 import {PersistGate} from 'redux-persist/lib/integration/react';
 import {getPersistor} from '@rematch/persist';
 import FlashMessage from 'react-native-flash-message';

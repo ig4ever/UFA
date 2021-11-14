@@ -4,7 +4,7 @@ import {models, RootModel} from './Models';
 import persistPlugin from '@rematch/persist';
 import loadingPlugin, {ExtraModelsFromLoading} from '@rematch/loading';
 import Reactotron from './ReactotronConfig';
-import {AsyncStorage} from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import immerPlugin from '@rematch/immer';
 
 const persistConfig = {

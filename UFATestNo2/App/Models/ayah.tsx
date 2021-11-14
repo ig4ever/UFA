@@ -1,7 +1,7 @@
 import {createModel} from '@rematch/core';
 import {RootModel} from '.';
 import { Ayah } from '../Data/Types';
-import * as api from '../services/api/ayah';
+import * as api from '../Services/API/ayah';
 
 const initialState = {
   number: 0,
@@ -30,7 +30,7 @@ export const ayah = createModel<RootModel>()({
     async getAyah(payload: string) {
       const response = await api.getAyah(payload);
       const data = await response.data;
-      dispatch.quran.updateData(data.surahs);
+      dispatch.ayah.updateData(data.surahs);
       return data;
     },
   }),

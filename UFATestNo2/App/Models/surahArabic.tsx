@@ -13,7 +13,7 @@ const initialState = {
   ayahs: []
 };
 
-export const surah = createModel<RootModel>()({
+export const surahArabic = createModel<RootModel>()({
   state: initialState as Surah,
   reducers: {
     updateData: (state, payload: Surah) => {
@@ -29,7 +29,7 @@ export const surah = createModel<RootModel>()({
     async getSurah(payload: string) {
       const response = await api.getSurah(payload);
       const data = await response.data;
-      dispatch.surah.updateData(data);
+      dispatch.surahArabic.updateData(data);
       return data;
     },
   }),

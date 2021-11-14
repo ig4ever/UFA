@@ -5,6 +5,7 @@ import {juz} from './juz';
 import {ayah} from './ayah';
 import {surah} from './surah';
 import {search} from './search';
+import { surahArabic } from './surahArabic';
 
 export interface RootModel extends Models<RootModel> {
   welcomeBanner: typeof welcomeBanner;
@@ -12,6 +13,7 @@ export interface RootModel extends Models<RootModel> {
   juz: typeof juz;
   ayah: typeof ayah;
   surah: typeof surah;
+  surahArabic: typeof surahArabic;
   search: typeof search;
 }
 
@@ -21,5 +23,6 @@ export const models: RootModel = {
   juz,
   ayah,
   surah,
+  surahArabic,
   search,
 };
