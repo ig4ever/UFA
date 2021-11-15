@@ -22,6 +22,7 @@ interface Props {
   extraParams?: string | null
   ListHeaderComponent?: any | null
   ListFooterComponent?: any | null
+  handleLoadMore?: (params: any) => void | null
   loading?: boolean
 }
 
@@ -40,12 +41,14 @@ const ListCardItem = (props: Props) => {
     extraParams,
     ListHeaderComponent,
     ListFooterComponent,
+    handleLoadMore,
     loading,
   } = props;
 
   const [refreshing, setRefreshing] = useState(false);
 
   React.useEffect(() => {
+    resetData();
     getListItem(extraParams);
   }, [])
 
@@ -86,6 +89,7 @@ const ListCardItem = (props: Props) => {
           renderItem={renderItem}
           keyExtractor={(item: any) => item?.id}
           onEndReachedThreshold={0.3}
+          onEndReached={handleLoadMore}
           ListHeaderComponent={ListHeaderComponent}
           ListFooterComponent={ListFooterComponent}
         /> :
@@ -107,6 +111,7 @@ const ListCardItem = (props: Props) => {
           )}
           keyExtractor={(item: any) => item?.id}
           onEndReachedThreshold={0.3}
+          onEndReached={handleLoadMore}
           ListHeaderComponent={ListHeaderComponent}
           ListFooterComponent={ListFooterComponent}
         />

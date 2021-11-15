@@ -4,8 +4,6 @@ import {Ayah, Surah} from '../Data/Types';
 import {TextStyle} from '../Styles';
 import Ripple from 'react-native-material-ripple';
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { useSelector } from 'react-redux';
-import { RootState } from '../store';
 
 interface Props {
   data: Ayah;
@@ -27,7 +25,7 @@ const CardItemAyah = (props: Props) => {
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', backgroundColor: '#F8F5FC', borderRadius: 5, padding: 10 }}>
 					<View style={styles.containerTextNumber}>
 						<Text style={[TextStyle.TEXT_14SP_SEMI_BOLD, {color: '#FFF'}]}>
-							{data.numberInSurah}
+							{data?.numberInSurah}
 						</Text>
 					</View>
 					<View>
@@ -41,10 +39,10 @@ const CardItemAyah = (props: Props) => {
 			</View>
 			<View>
 				<Text style={[TextStyle.TEXT_22SP_SEMI_BOLD, {color: '#281453', marginBottom: 10}]}>
-					{data.text}
+					{data?.text}
 				</Text>
 				<Text style={[TextStyle.TEXT_16SP_MEDIUM, {color: '#281453'}]}>
-					{dataTranslated.ayahs[data.numberInSurah - 1].text}
+					{dataTranslated?.ayahs[data?.numberInSurah - 1]?.text}
 				</Text>
 			</View>
     </Ripple>

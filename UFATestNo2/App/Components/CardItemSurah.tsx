@@ -20,12 +20,12 @@ const CardItemSurah = (props: Props) => {
       style={styles.container}>
       <View style={styles.containerTextNumber}>
         <Text style={[TextStyle.TEXT_14SP_MEDIUM, {color: '#FFF'}]}>
-          {data.number}
+          {data?.number}
         </Text>
       </View>
       <View style={{flexGrow: 2, alignItems: 'flex-start'}}>
         <Text style={[TextStyle.TEXT_14SP_SEMI_BOLD, {color: '#281453'}]}>
-          {data.englishName}
+          {data?.englishName}
         </Text>
         <View style={{flexDirection: 'row'}}>
           <Text
@@ -33,7 +33,7 @@ const CardItemSurah = (props: Props) => {
               TextStyle.TEXT_14SP_BOLD,
               {color: '#8C8EA6', marginRight: 10},
             ]}>
-            {data.revelationType}
+            {data?.revelationType}
           </Text>
           <Text
             style={[
@@ -43,13 +43,13 @@ const CardItemSurah = (props: Props) => {
             •
           </Text>
           <Text style={[TextStyle.TEXT_14SP_BOLD, {color: '#8C8EA6'}]}>
-            {data.ayahs.length} Ayat
+            {data?.ayahs?.length} Ayat
           </Text>
         </View>
       </View>
       <View style={{flexGrow: 1}}>
         <Text style={[TextStyle.TEXT_14SP_BOLD, {color: '#9453D9'}]}>
-          {data.name}
+          {data?.name}
         </Text>
       </View>
     </Ripple>

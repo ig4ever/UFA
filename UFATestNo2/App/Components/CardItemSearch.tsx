@@ -20,20 +20,20 @@ const CardItemSearch = (props: Props) => {
       <View style={{ flexDirection: 'row', marginBottom: 16 }}>
         <View style={{flexGrow: 2, alignItems: 'flex-start', justifyContent: 'center'}}>
           <Text style={[TextStyle.TEXT_14SP_SEMI_BOLD, {color: '#281453'}]}>
-            Surat {data.surah.englishName}
+            Surat {data?.surah?.englishName}
           </Text>
         </View>
         <View style={{flexGrow: 1}}>
           <Text style={[TextStyle.TEXT_14SP_BOLD, {color: '#9453D9'}]}>
-            {data.surah.name}
+            {data?.surah?.name}
           </Text>
         </View>
       </View>
       <Text style={[TextStyle.TEXT_14SP_MEDIUM, {color: '#281453', marginBottom: 10}]} numberOfLines={3}>
-        {data.text}
+        {data?.text}
       </Text>
       <Text style={[TextStyle.TEXT_14SP_BOLD, {color: '#9453D9'}]}>
-        Ayat ke {data.numberInSurah}
+        Ayat ke {data?.numberInSurah}
       </Text>
     </Ripple>
   );

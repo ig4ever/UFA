@@ -20,6 +20,8 @@ if (
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'DetailSurahScreen'>;
 
+const PAGE_LIMIT = 10
+
 const DetailSurah = (props: any) => {
 	const { route } = props;
 
@@ -33,9 +35,27 @@ const DetailSurah = (props: any) => {
 	const navigation = useNavigation<NavigationProp>();
   const dispatch = useDispatch<Dispatch>();
 
+	const [dataListSurah, setdataListSurah] = useState([]);
+  const [numPageSurah, setnumPageSurah] = useState(0);
+  const [numSizeSurah, setnumSizeSurah] = useState(0);
+	
 	React.useEffect(() => {
-		getSurahArabic(params.number + '');
+    clearDataSurah();
 	}, [])
+
+	React.useEffect(() => {
+    clearDataSurah();
+    if (surahArabicData.ayahs.length > 0) {
+      setnumSizeSurah(surahArabicData.ayahs.length);
+    }
+  }, [surahArabicData])
+
+  React.useEffect(() => {
+    if (surahArabicData.ayahs.length > 0 && dataListSurah.length <= surahArabicData.ayahs.length) {
+      dataListSurah.push.apply(dataListSurah, pushDataSurah(numPageSurah))
+      setdataListSurah(dataListSurah);
+    }
+  }, [numPageSurah, surahArabicData])
 
 	React.useEffect(() => {
 		getSurah(params.number + '/id.indonesian');
@@ -51,7 +71,33 @@ const DetailSurah = (props: any) => {
 
 	const resetSurahArabic = () => {
 		dispatch.surahArabic.resetData();
+		clearDataSurah();
 	}
+
+	const pushDataSurah = (numPage: number) => {
+    let result = [];
+    for (let i = numPage; i < numPage + PAGE_LIMIT; i++) {
+			if(surahArabicData.ayahs[i])
+      	result.push(surahArabicData.ayahs[i])
+    }
+
+    return result;
+  }
+
+	const clearDataSurah = () => {
+    setdataListSurah([]);
+    setnumPageSurah(0);
+  }
+
+	const handleLoadMoreSurah = ({ distanceFromEnd }: { distanceFromEnd: any }) => {
+    if (distanceFromEnd >= 0) {
+      const nextPage = numPageSurah + PAGE_LIMIT;
+
+      if (nextPage <= numSizeSurah) {
+        setnumPageSurah(nextPage);
+      }
+    }
+  }
 
   const onPressCardItem = (data: any, dataTranslated: any) => {
     navigation.navigate('DetailAyahScreen', { ayah: data, ayahTranslated: dataTranslated });
@@ -105,8 +151,9 @@ const DetailSurah = (props: any) => {
 						<CardItemAyah data={item} dataTranslated={surahData} onPress={onPressCardItem} />
 					</View>
 				)}
-				data={surahArabicData.ayahs}
+				data={dataListSurah}
 				extraParams={params.number + ''}
+				handleLoadMore={handleLoadMoreSurah}
 				loading={loadingGetSurahArabic && loadingGetSurah}
 				getData={(params: any) => {
 					getSurahArabic(params);

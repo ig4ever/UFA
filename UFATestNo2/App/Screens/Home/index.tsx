@@ -22,9 +22,9 @@ if (
 
 type NavigationProp = StackNavigationProp<RootStackParamList, 'HomeScreen'>;
 
-interface Props {}
+const PAGE_LIMIT = 10
 
-const index = (props: Props) => {
+const index = (props: any) => {
   const quranData = useSelector((rootState: RootState) => rootState.quran);
   const searchData = useSelector((rootState: RootState) => rootState.search);
   const loadingQuran = useSelector((rootState: RootState) => rootState.loading.effects.quran.getQuran);
@@ -35,7 +35,44 @@ const index = (props: Props) => {
 
   const [showSearchBox, setShowSearchBox] = useState(false);
   const [keywordSearch, setkeywordSearch] = useState('');
+  
+  const [dataListQuran, setdataListQuran] = useState([]);
+  const [numPageQuran, setnumPageQuran] = useState(0);
+  const [numSizeQuran, setnumSizeQuran] = useState(0);
+
+  const [dataListSearch, setdataListSearch] = useState([]);
+  const [numPageSearch, setnumPageSearch] = useState(0);
+  const [numSizeSearch, setnumSizeSearch] = useState(0);
+
   const debouncedValue = useDebounce<string>(keywordSearch, 500);
+  
+  React.useEffect(() => {
+    clearDataQuran();
+    if (quranData.length > 0) {
+      setnumSizeQuran(quranData.length);
+    }
+  }, [quranData])
+
+  React.useEffect(() => {
+    if (quranData.length > 0 && dataListQuran.length <= quranData.length) {
+      dataListQuran.push.apply(dataListQuran, pushDataQuran(numPageQuran))
+      setdataListQuran(dataListQuran);
+    }
+  }, [numPageQuran, quranData])
+
+  React.useEffect(() => {
+    clearDataSearch();
+    if (searchData.matches.length > 0) {
+      setnumSizeSearch(searchData.matches.length);
+    }
+  }, [searchData])
+
+  React.useEffect(() => {
+    if (searchData.matches.length > 0 && dataListSearch.length <= searchData.matches.length) {
+      dataListSearch.push.apply(dataListSearch, pushDataSearch(numPageSearch))
+      setdataListSearch(dataListSearch);
+    }
+  }, [numPageSearch, searchData])
 
   React.useEffect(() => {
     if (!showSearchBox) 
@@ -53,6 +90,7 @@ const index = (props: Props) => {
 
   const resetSearch = () => {
     dispatch.search.resetData();
+    clearDataSearch();
   }
 
   const getQuran = (params: string) => {
@@ -61,6 +99,7 @@ const index = (props: Props) => {
 
   const resetQuran = () => {
     dispatch.quran.resetData();
+    clearDataQuran();
   }
 
   const getSurahArabic = (params: string) => {
@@ -69,6 +108,56 @@ const index = (props: Props) => {
 
 	const getSurah = (params: string) => {
     return dispatch.surah.getSurah(params);
+  }
+
+  const pushDataQuran = (numPage: number) => {
+    let result = [];
+    for (let i = numPage; i < numPage + PAGE_LIMIT; i++) {
+      if(quranData[i])
+        result.push(quranData[i])
+    }
+
+    return result;
+  }
+
+  const pushDataSearch = (numPage: number) => {
+    let result = [];
+    for (let i = numPage; i < numPage + PAGE_LIMIT; i++) {
+      if(searchData.matches[i])
+        result.push(searchData.matches[i])
+    }
+
+    return result;
+  }
+
+  const clearDataQuran = () => {
+    setdataListQuran([]);
+    setnumPageQuran(0);
+  }
+
+  const clearDataSearch = () => {
+    setdataListSearch([]);
+    setnumPageSearch(0);
+  }
+
+  const handleLoadMoreQuran = ({ distanceFromEnd }: { distanceFromEnd: any }) => {
+    if (distanceFromEnd >= 0) {
+      const nextPage = numPageQuran + PAGE_LIMIT;
+
+      if (nextPage <= numSizeQuran) {
+        setnumPageQuran(nextPage);
+      }
+    }
+  }
+
+  const handleLoadMoreSearch = ({ distanceFromEnd }: { distanceFromEnd: any }) => {
+    if (distanceFromEnd >= 0) {
+      const nextPage = numPageSearch + PAGE_LIMIT;
+
+      if (nextPage <= numSizeSearch) {
+        setnumPageSearch(nextPage);
+      }
+    }
   }
 
   const onChangeTextSearch = (data: any) => {
@@ -119,7 +208,8 @@ const index = (props: Props) => {
               <CardItemSearch data={item} onPress={onPressCardItemSearch} />
             </View>
           )}
-          data={searchData.matches}
+          handleLoadMore={handleLoadMoreSearch}
+          data={dataListSearch}
           extraParams={debouncedValue + '/all/id'}
           loading={loadingSearch}
           getData={(params: any) => {
@@ -134,7 +224,8 @@ const index = (props: Props) => {
               <CardItemSurah data={item} onPress={onPressCardItem} />
             </View>
           )}
-          data={quranData}
+          handleLoadMore={handleLoadMoreQuran}
+          data={dataListQuran}
           extraParams={'id.indonesian'}
           loading={loadingQuran}
           getData={(params: any) => {
